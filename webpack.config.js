@@ -7,16 +7,19 @@ var webpack = require('webpack');
 // });
 
 module.exports = {
-    entry: './public/scripts/main.js',
+    entry: './src/index.js',
     output: {
-        path: './public/scripts/build',
+        path: './public/build',
         filename: 'webpack-bundle.js',
     },
     module: {
         loaders: [{
-            test: /\.js$/,
+            test: /.js?$/,
             exclude: /node_modules/,
             loader: 'babel-loader',
+            query: {
+              presets: ['es2015', 'react']
+            }
         }]
     }
     //plugins: [definePlugin]
