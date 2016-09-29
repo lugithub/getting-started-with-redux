@@ -1,0 +1,31 @@
+{
+  "name": "getting-started-with-redux",
+  "version": "1.0.0",
+  "description": "��#\u0000 \u0000g\u0000e\u0000t\u0000t\u0000i\u0000n\u0000g\u0000-\u0000s\u0000t\u0000a\u0000r\u0000t\u0000e\u0000d\u0000-\u0000w\u0000i\u0000t\u0000h\u0000-\u0000r\u0000e\u0000d\u0000u\u0000x\u0000\r\u0000 \u0000",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/lugithub/getting-started-with-redux.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/lugithub/getting-started-with-redux/issues"
+  },
+  "homepage": "https://github.com/lugithub/getting-started-with-redux#readme",
+  "devDependencies": {
+    "babel-core": "^6.16.0",
+    "babel-loader": "^6.2.5",
+    "babel-preset-es2015": "^6.16.0",
+    "babel-preset-react": "^6.16.0",
+    "webpack": "^1.13.2"
+  },
+  "dependencies": {
+    "express": "^4.14.0",
+    "react": "^15.3.2",
+    "redux": "^3.6.0"
+  }
+}
