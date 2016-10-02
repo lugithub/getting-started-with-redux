@@ -10,9 +10,15 @@ import counter from './reducers';
 const store = createStore(counter);
 const rootEl = document.getElementById('root');
 
+const rawDispatch = store.dispatch;
+store.dispatch = action => {
+  console.log('%cdispatching action: ', 'color: green', action);
+  rawDispatch(action);
+};
+
 const render = () => {
   const counters = store.getState().map((value, index) =>
-  <div>
+  <div key={index}>
     <Counter
       value={value}
       onIncrement={() => store.dispatch({ type: 'INCREMENT', index })}
