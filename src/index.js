@@ -1,11 +1,33 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { createStore } from 'redux';
 import Counter from './components/Counter';
 
 //the reducers module has just a default export that i want to import and bind
 //to an identifier, counter.
 import counter from './reducers';
+
+const createStore = reducer => {
+  let state;
+
+  const getState = () => state;
+
+  const dispatch = action => {
+    state = reducer(state, action);
+    listeners.forEach(listener => listener());
+  };
+
+  let listeners = [];
+  const subscribe = listener => {
+    //impure ok
+    listeners.push(listener);
+    return () => listeners = listeners.filter(x => x !== listener);
+  };
+
+  //dummy action {}
+  dispatch({});
+
+  return { getState, dispatch, subscribe };
+};
 
 const store = createStore(counter);
 const rootEl = document.getElementById('root');
