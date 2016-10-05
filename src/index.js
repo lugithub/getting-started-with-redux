@@ -52,6 +52,7 @@ const render = () => {
   </div>);
 
   ReactDOM.render(
+    //container component
   <div>
     {counters}
     <button onClick={() => store.dispatch({type: 'ADD'})} >Add counter</button>
