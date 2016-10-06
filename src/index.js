@@ -48,6 +48,8 @@ store.dispatch = action => {
   rawDispatch(action);
 };
 
+let id = 0;
+
 const render = () => {
   const counters = store.getState().map((value, index) =>
   <div key={index}>
@@ -65,7 +67,11 @@ const render = () => {
     //container component
   <div>
     {counters}
-    <button onClick={() => store.dispatch({type: 'ADD'})} >Add counter</button>
+    <button onClick={() => store.dispatch({
+      type: 'ADD_TODO',
+      id: id++,
+      text: 'aaas'
+    })} >Add counter</button>
   </div>,
   rootEl
 )};

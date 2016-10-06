@@ -5,7 +5,7 @@ import React, { Component, PropTypes } from 'react';
 //the event handlers
 const counter =  ({ value, onIncrement, onDecrement }) => (
   <span>
-    Clicked: {value} times
+    Clicked: {value.id} times
     {' '}
 
     //if an action was dispatched, instead of onIncrement callback,
@@ -22,7 +22,7 @@ const counter =  ({ value, onIncrement, onDecrement }) => (
 
 //would report run-time warning
 counter.propTypes = {
-    value: PropTypes.number.isRequired,
+    value: PropTypes.object.isRequired,
     onIncrement: PropTypes.func.isRequired,
     onDecrement: PropTypes.func.isRequired
 };
