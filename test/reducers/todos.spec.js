@@ -1,4 +1,4 @@
-import todos from '../../src/reducers';
+import todos from '../../src/reducers/todos';
 
 describe('counter', () => {
   it('should add a todo', () => {

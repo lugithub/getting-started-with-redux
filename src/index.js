@@ -1,84 +1,29 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import Counter from './components/Counter';
+import {createStore} from 'redux';
+import todoApp from './reducers';
 
-//the reducers module has just a default export that i want to import and bind
-//to an identifier, counter.
-import counter from './reducers';
-
-// Rest properties
-let { x, y, ...z } = { x: 1, y: 2, a: 3, b: 4 };
-console.log(x); // 1
-console.log(y); // 2
-console.log(z); // { a: 3, b: 4 }
-
-// Spread properties
-let n = { x, y, ...z };
-console.log(n); // { x: 1, y: 2, a: 3, b: 4 }
-
-const createStore = reducer => {
-  let state;
-
-  const getState = () => state;
-
-  const dispatch = action => {
-    state = reducer(state, action);
-    listeners.forEach(listener => listener());
-  };
-
-  let listeners = [];
-  const subscribe = listener => {
-    //impure ok
-    listeners.push(listener);
-    return () => listeners = listeners.filter(x => x !== listener);
-  };
-
-  //dummy action {}
-  dispatch({});
-
-  return { getState, dispatch, subscribe };
-};
-
-const store = createStore(counter);
-const rootEl = document.getElementById('root');
+const store = createStore(todoApp);
 
 const rawDispatch = store.dispatch;
 store.dispatch = action => {
-  console.log('%cdispatching action: ', 'color: green', action);
+  console.group('%cdispatching action: ', 'color: green', action);
+  console.log('%cprevious state: ', 'color: green', store.getState());
   rawDispatch(action);
+  console.log('%ccurrent state: ', 'color: green', store.getState());
+  console.groupEnd();
 };
 
 let id = 0;
 
-const render = () => {
-  const counters = store.getState().map((value, index) =>
-  <div key={index}>
-    <Counter
-      value={value}
-      onIncrement={() => store.dispatch({ type: 'INCREMENT', index })}
-      onDecrement={() => store.dispatch({ type: 'DECREMENT', index })}
-    />
-    <button onClick={() => store.dispatch({ type: 'REMOVE', index })}>
-      Remove counter
-    </button>
-  </div>);
+//type: 'dummy' is required. otherwise, i'm getting an error 'Actions may not
+//have an undefined "type" property. Have you misspelled a constant?'
+store.dispatch({type: 'dummy'});
 
-  ReactDOM.render(
-    //container component
-  <div>
-    {counters}
-    <button onClick={() => store.dispatch({
-      type: 'ADD_TODO',
-      id: id++,
-      text: 'aaas'
-    })} >Add counter</button>
-  </div>,
-  rootEl
-)};
+store.dispatch({type: 'ADD_TODO', id, text: 'foo'});
+id++;
+store.dispatch({type: 'ADD_TODO', id, text: 'bar'});
 
-render();
-store.subscribe(render);
-store.subscribe(() => {
-  console.log('%ccurrent state: ', 'color: green', store.getState());
-});
-console.log('%ccurrent state: ', 'color: green', store.getState());
+store.dispatch({type: 'TOGGLE_TODO', id});
+
+store.dispatch({type: 'SET_VISIBILITY_FILTER', filter: 'SHOW_COMPLETED'});
