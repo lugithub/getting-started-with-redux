@@ -1,9 +1,8 @@
 import todos from './todos';
 import visibilityFilter from './visibilityFilter';
+import {combineReducers} from 'redux';
 
-const todoApp = (state = {}, action) => ({
-  todos: todos(state.todos, action),
-  visibilityFilter: visibilityFilter(state.visibilityFilter, action)
-});
-
-export default todoApp;
+//todos key is the key of the corresponding field in the state
+//todos value is the reducer
+//responsible to update the corresponding field in the state
+export default combineReducers({todos, visibilityFilter});
