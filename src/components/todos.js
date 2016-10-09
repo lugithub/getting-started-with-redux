@@ -3,9 +3,9 @@ import ToDo from './todo';
 
 const ToDos =  ({todos}) => {
 
-  return <div>
+  return <ul>
       {todos.map(todo => <ToDo key={todo.id} todo={todo} />)}
-  </div>;
+  </ul>;
 
 };
 

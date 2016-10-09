@@ -1,8 +1,11 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import {createStore} from 'redux';
+
+//reducer has lowercase naming convertion
 import todoApp from './reducers';
 
+//component has uppercase naming convention
 import ToDoApp from './components/ToDoApp';
 
 const store = createStore(todoApp);
