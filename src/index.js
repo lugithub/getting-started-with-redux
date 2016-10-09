@@ -16,10 +16,16 @@ store.dispatch = action => {
   console.groupEnd();
 };
 
-store.subscribe(() => {
-  ReactDOM.render(<ToDoApp store={store}/>, document.getElementById('root'));
-});
+let id = 0;
 
-//type: 'dummy' is required. otherwise, i'm getting an error 'Actions may not
-//have an undefined "type" property. Have you misspelled a constant?'
-store.dispatch({type: 'dummy'});
+//temporal dead zone: if line 21 was moved after line 24, ReferenceError
+const render = () => {
+  ReactDOM.render(<ToDoApp onAdd={text => {
+      store.dispatch({type: 'ADD_TODO', id, text});
+      id++;
+    }} todos={store.getState().todos}/>,
+  document.getElementById('root'));
+};
+
+store.subscribe(render);
+render();
