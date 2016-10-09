@@ -21,12 +21,20 @@ store.dispatch = action => {
 
 let id = 0;
 
-//temporal dead zone: if line 21 was moved after line 24, ReferenceError
+//temporal dead zone: if line 25 was moved after line 34, ReferenceError
 const render = () => {
-  ReactDOM.render(<ToDoApp onAdd={text => {
+  ReactDOM.render(<ToDoApp
+    onAdd={text => {
       store.dispatch({type: 'ADD_TODO', id, text});
       id++;
-    }} todos={store.getState().todos}/>,
+    }}
+
+    todos={store.getState().todos}
+
+    onToggle={
+      id => store.dispatch({type: 'TOGGLE_TODO', id})
+    }
+    />,
   document.getElementById('root'));
 };
 

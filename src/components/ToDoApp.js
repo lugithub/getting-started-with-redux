@@ -15,9 +15,9 @@ import ToDos from './todos';
 // }
 
 //stateless function
-const ToDoApp = ({onAdd, todos}) => <div>
+const ToDoApp = ({onAdd, todos, onToggle}) => <div>
   <AddToDo onClick={onAdd}/>
-  <ToDos todos={todos}/>
+  <ToDos todos={todos} onToggle={onToggle}/>
 </div>;
 
 export default ToDoApp;
