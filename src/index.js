@@ -21,19 +21,43 @@ store.dispatch = action => {
 
 let id = 0;
 
-//temporal dead zone: if line 25 was moved after line 34, ReferenceError
+//if SET_VISIBILITY_FILTER updated state.todos, then some todos would be lost
+//it would then be harder to implement.
+//again the state should be the MINIMUM representation of the data.
+const getVisibleToDos = (todos, filter) => {
+  return store.getState().todos.filter(todo => {
+    switch (store.getState().visibilityFilter) {
+      case 'all':
+        return true;
+      case 'completed':
+        return todo.completed;
+      default:
+        return !todo.completed;
+    }
+  });
+};
+
 const render = () => {
+  const {todos, visibilityFilter} = store.getState();
+  const visibleToDos = getVisibleToDos(todos, visibilityFilter);
+
   ReactDOM.render(<ToDoApp
     onAdd={text => {
       store.dispatch({type: 'ADD_TODO', id, text});
       id++;
     }}
 
-    todos={store.getState().todos}
+    todos={visibleToDos}
 
     onToggle={
       id => store.dispatch({type: 'TOGGLE_TODO', id})
     }
+
+    onFilter={
+      filter => store.dispatch({type: 'SET_VISIBILITY_FILTER', filter})
+    }
+
+    currentFilter={visibilityFilter}
     />,
   document.getElementById('root'));
 };
