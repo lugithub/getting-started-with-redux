@@ -1,8 +1,8 @@
 //required
 import React from 'react';
 
-const FilterLink =  ({onFilter, children, filter, currentFilter}) => {
-  return filter === currentFilter ? <span>{children}</span> :
+const FilterLink =  ({onFilter, children, filter, visibilityFilter}) => {
+  return filter === visibilityFilter ? <span>{children}</span> :
         <a href='#'
             onClick={e => {
               e.preventDefault();

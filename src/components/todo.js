@@ -1,5 +1,6 @@
 import React, { Component, PropTypes } from 'react';
 
+//presentational component
 const ToDo =  ({todo, onToggle}) => {
 
   return <li

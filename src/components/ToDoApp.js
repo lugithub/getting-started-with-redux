@@ -16,10 +16,11 @@ import FilterToDo from './filterToDo';
 // }
 
 //stateless function
-const ToDoApp = ({onAdd, todos, onToggle, onFilter, currentFilter}) => <div>
+//but ToDoApp could be a container component
+const ToDoApp = ({onAdd, todos, onToggle, onFilter, visibilityFilter}) => <div>
   <AddToDo onClick={onAdd}/>
   <ToDos todos={todos} onToggle={onToggle}/>
-  <FilterToDo onFilter={onFilter} currentFilter={currentFilter}/>
+  <FilterToDo onFilter={onFilter} visibilityFilter={visibilityFilter}/>
 </div>;
 
 export default ToDoApp;

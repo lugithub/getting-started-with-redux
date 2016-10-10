@@ -43,8 +43,7 @@ const render = () => {
 
   ReactDOM.render(<ToDoApp
     onAdd={text => {
-      store.dispatch({type: 'ADD_TODO', id, text});
-      id++;
+      store.dispatch({type: 'ADD_TODO', id: id++, text});
     }}
 
     todos={visibleToDos}
@@ -57,7 +56,7 @@ const render = () => {
       filter => store.dispatch({type: 'SET_VISIBILITY_FILTER', filter})
     }
 
-    currentFilter={visibilityFilter}
+    visibilityFilter={visibilityFilter}
     />,
   document.getElementById('root'));
 };

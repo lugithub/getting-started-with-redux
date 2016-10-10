@@ -1,6 +1,7 @@
 import React, { Component, PropTypes } from 'react';
 import ToDo from './todo';
 
+//presentational component
 const ToDos =  ({todos, onToggle}) => {
 
   return <ul>
