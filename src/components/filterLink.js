@@ -1,54 +1,22 @@
 //required
 import React from 'react';
 import {Component} from 'react';
+import {connect} from 'react-redux';
 import Link from './link';
 
-//the downside is that visibilityFilter is passed from ToDoApp, FilterToDo,
-//to FilterLink but the intermediate components don't use it.
-//this breaks encapsulation.
+//containerComponentProps is the props of the generated constainer component
+const mapStateToProps = (state, containerComponentProps) => ({
+    active: containerComponentProps.filter === state.visibilityFilter
+});
 
-
-//constainer component: has no markup.
-// const FilterLink =  ({children, filter, store}) => {
-//   //it could be a problem that doesn't subscribe to the store,
-//   //if the parent component doesn't update.
-//   //to solve the problem, use life cycle methods.
-//   const visibilityFilter = store.getState().visibilityFilter;
-//
-//   return <Link onFilter={() => {
-//     store.dispatch({type: 'SET_VISIBILITY_FILTER', filter});
-//   }}
-//   active={filter === visibilityFilter}>
-//     {children}
-//   </Link>;
-// };
-
-class FilterLink extends Component {
-  componentDidMount() {
-    const {store} = this.context;
-    this.unsubscribe = store.subscribe(() => {
-      this.forceUpdate();
-    });
+const mapDispathToProps = (dispatch, containerComponentProps) => ({
+    onFilter: () => dispatch({
+      type: 'SET_VISIBILITY_FILTER',
+      filter: containerComponentProps.filter
+    })
   }
-  componentWillUnmont() {
-    this.unsubscribe();
-  }
-  render() {
-      const {store} = this.context;
-      const {filter, children} = this.props;
-      const visibilityFilter = store.getState().visibilityFilter;
+);
 
-      return <Link onFilter={() => {
-          store.dispatch({type: 'SET_VISIBILITY_FILTER', filter});
-        }}
-        active={filter === visibilityFilter}>
-          {children}
-      </Link>;
-    }
-}
-
-FilterLink.contextTypes = {
-  store: React.PropTypes.object
-};
+const FilterLink = connect(mapStateToProps, mapDispathToProps)(Link);
 
 export default FilterLink;
