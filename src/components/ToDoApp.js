@@ -3,7 +3,7 @@ import {Component} from 'react';
 
 //uppercase A is required that react knows it is a react component
 import AddToDo from './addtodo';
-import ToDos from './todos';
+import VisibleToDos from './visibleTodos';
 import FilterToDo from './filterToDo';
 
 // class ToDoApp extends Component {
@@ -17,9 +17,9 @@ import FilterToDo from './filterToDo';
 
 //stateless function
 //but ToDoApp could be a container component
-const ToDoApp = ({onAdd, todos, onToggle, store}) => <div>
-  <AddToDo onClick={onAdd}/>
-  <ToDos todos={todos} onToggle={onToggle}/>
+const ToDoApp = ({store}) => <div>
+  <AddToDo store={store}/>
+  <VisibleToDos store={store}/>
   <FilterToDo store={store}/>
 </div>;
 

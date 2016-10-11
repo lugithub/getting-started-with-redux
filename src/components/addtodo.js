@@ -14,14 +14,17 @@ import React, { Component, PropTypes } from 'react';
 //   }
 // }
 
-const AddToDo =  ({onClick}) => {
+let id = 0;
+
+//mixed component
+const AddToDo =  ({store}) => {
 
   let _node;
 
   return <span>
     <input ref={node => _node = node} />
     <button onClick={() => {
-      onClick(_node.value);
+      store.dispatch({type: 'ADD_TODO', id: id++, text: _node.value});
       _node.value = '';
     }}>
       add todo

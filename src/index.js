@@ -19,43 +19,6 @@ store.dispatch = action => {
   console.groupEnd();
 };
 
-let id = 0;
-
-//if SET_VISIBILITY_FILTER updated state.todos, then some todos would be lost
-//it would then be harder to implement.
-//again the state should be the MINIMUM representation of the data.
-const getVisibleToDos = (todos, filter) => {
-  return store.getState().todos.filter(todo => {
-    switch (store.getState().visibilityFilter) {
-      case 'all':
-        return true;
-      case 'completed':
-        return todo.completed;
-      default:
-        return !todo.completed;
-    }
-  });
-};
-
-const render = () => {
-  const {todos, visibilityFilter} = store.getState();
-  const visibleToDos = getVisibleToDos(todos, visibilityFilter);
-
-  ReactDOM.render(<ToDoApp
-    onAdd={text => {
-      store.dispatch({type: 'ADD_TODO', id: id++, text});
-    }}
-
-    todos={visibleToDos}
-
-    onToggle={
-      id => store.dispatch({type: 'TOGGLE_TODO', id})
-    }
-
-    store={store}
-    />,
-  document.getElementById('root'));
-};
-
-store.subscribe(render);
-render();
+//because child container components subscribe to the store themselfvs
+ReactDOM.render(<ToDoApp store={store}/>,
+document.getElementById('root'));
