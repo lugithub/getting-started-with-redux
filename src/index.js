@@ -1,6 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import {createStore} from 'redux';
+import {Provider} from 'react-redux';
 
 //reducer has lowercase naming convertion
 import todoApp from './reducers';
@@ -12,7 +13,7 @@ const store = createStore(todoApp);
 
 const rawDispatch = store.dispatch;
 store.dispatch = action => {
-  console.group('%cdispatching action: ', 'color: green', action);
+  console.group('%cdispatching action1: ', 'color: green', action);
   console.log('%cprevious state: ', 'color: green', store.getState());
   rawDispatch(action);
   console.log('%ccurrent state: ', 'color: green', store.getState());
@@ -20,5 +21,8 @@ store.dispatch = action => {
 };
 
 //because child container components subscribe to the store themselfvs
-ReactDOM.render(<ToDoApp store={store}/>,
+ReactDOM.render(
+  <Provider store={store}>
+    <ToDoApp/>
+  </Provider>,
 document.getElementById('root'));

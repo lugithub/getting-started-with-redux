@@ -16,10 +16,6 @@ import FilterToDo from './filterToDo';
 // }
 
 class ToDoApp extends Component {
-  getChildContext() {
-   return {store: this.props.store};
-  }
-
   render() {
     return <div>
             <AddToDo/>
@@ -29,7 +25,4 @@ class ToDoApp extends Component {
   }
 }
 
-ToDoApp.childContextTypes = {
-  store: React.PropTypes.object
-};
 export default ToDoApp;
