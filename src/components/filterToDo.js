@@ -1,15 +1,15 @@
 import React from 'react';
 import FilterLink from './filterLink';
 
-const FilterToDo = ({store}) => {
+const FilterToDo = () => {
   return <div>Show:
-    <FilterLink filter='all' store={store}>
+    <FilterLink filter='all'>
       All
     </FilterLink>{' '}
-    <FilterLink filter='completed' store={store}>
+    <FilterLink filter='completed'>
       Completed
     </FilterLink>{' '}
-    <FilterLink filter='active' store={store}>
+    <FilterLink filter='active'>
       Active
     </FilterLink>
   </div>;

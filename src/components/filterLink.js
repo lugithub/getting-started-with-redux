@@ -25,7 +25,7 @@ import Link from './link';
 
 class FilterLink extends Component {
   componentDidMount() {
-    const {store} = this.props;
+    const {store} = this.context;
     this.unsubscribe = store.subscribe(() => {
       this.forceUpdate();
     });
@@ -34,7 +34,8 @@ class FilterLink extends Component {
     this.unsubscribe();
   }
   render() {
-      const {store, filter, children} = this.props;
+      const {store} = this.context;
+      const {filter, children} = this.props;
       const visibilityFilter = store.getState().visibilityFilter;
 
       return <Link onFilter={() => {
@@ -45,5 +46,9 @@ class FilterLink extends Component {
       </Link>;
     }
 }
+
+FilterLink.contextTypes = {
+  store: React.PropTypes.object
+};
 
 export default FilterLink;

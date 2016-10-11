@@ -15,12 +15,21 @@ import FilterToDo from './filterToDo';
 //     }
 // }
 
-//stateless function
-//but ToDoApp could be a container component
-const ToDoApp = ({store}) => <div>
-  <AddToDo store={store}/>
-  <VisibleToDos store={store}/>
-  <FilterToDo store={store}/>
-</div>;
+class ToDoApp extends Component {
+  getChildContext() {
+   return {store: this.props.store};
+  }
 
+  render() {
+    return <div>
+            <AddToDo/>
+            <VisibleToDos/>
+            <FilterToDo/>
+          </div>;
+  }
+}
+
+ToDoApp.childContextTypes = {
+  store: React.PropTypes.object
+};
 export default ToDoApp;

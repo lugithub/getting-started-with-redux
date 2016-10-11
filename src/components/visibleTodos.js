@@ -5,7 +5,7 @@ import ToDos from './todos';
 
 class VisibleToDos extends Component {
   componentDidMount() {
-    const {store} = this.props;
+    const {store} = this.context;
     this.unsubscribe = store.subscribe(() => {
       this.forceUpdate();
     });
@@ -14,7 +14,7 @@ class VisibleToDos extends Component {
     this.unsubscribe();
   }
   render() {
-      const {store} = this.props;
+      const {store} = this.context;
       const {todos, visibilityFilter} = store.getState();
       const visibleToDos = getVisibleToDos(todos, visibilityFilter);
 
@@ -37,6 +37,10 @@ const getVisibleToDos = (todos, filter) => {
         return !todo.completed;
     }
   });
+};
+
+VisibleToDos.contextTypes = {
+  store: React.PropTypes.object
 };
 
 export default VisibleToDos;

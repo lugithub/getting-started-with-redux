@@ -17,19 +17,26 @@ import React, { Component, PropTypes } from 'react';
 let id = 0;
 
 //mixed component
-const AddToDo =  ({store}) => {
+class AddToDo extends Component {
+  render() {
+    return <span>
+      <input ref={node => this._node = node} />
+      <button onClick={() => {
+        this.context.store.dispatch({
+          type: 'ADD_TODO',
+          id: id++,
+          text: this._node.value
+        });
+        this._node.value = '';
+      }}>
+        add todo
+      </button>
+    </span>;
+  }
+}
 
-  let _node;
-
-  return <span>
-    <input ref={node => _node = node} />
-    <button onClick={() => {
-      store.dispatch({type: 'ADD_TODO', id: id++, text: _node.value});
-      _node.value = '';
-    }}>
-      add todo
-    </button>
-  </span>
+AddToDo.contextTypes = {
+  store: React.PropTypes.object
 };
 
 export default AddToDo;
