@@ -1,30 +1,25 @@
 //required
 import React from 'react';
 import {Component} from 'react';
+import {connect} from 'react-redux';
 import ToDos from './todos';
 
-class VisibleToDos extends Component {
-  componentDidMount() {
-    const {store} = this.context;
-    this.unsubscribe = store.subscribe(() => {
-      this.forceUpdate();
-    });
-  }
-  componentWillUnmont() {
-    this.unsubscribe();
-  }
-  render() {
-      const {store} = this.context;
-      const {todos, visibilityFilter} = store.getState();
-      const visibleToDos = getVisibleToDos(todos, visibilityFilter);
+//props are the props of the presentational component, ToDos.
+const mapStateToProps = state => {
+  const {todos, visibilityFilter} = state;
+  const visibleToDos = getVisibleToDos(todos, visibilityFilter);
+  return {todos: visibleToDos}
+};
 
-      return <ToDos todos={visibleToDos}
-                    onToggle={id => {
-                      store.dispatch({type: 'TOGGLE_TODO', id});
-                    }}
-                    />;
-    }
-}
+//props are the props of the presentational component, ToDos.
+const mapDispathToProps = dispatch => ({
+  onToggle: id => dispatch({type: 'TOGGLE_TODO', id})
+});
+
+const VisibleToDos = connect(
+  mapStateToProps,
+  mapDispathToProps
+)(ToDos);
 
 const getVisibleToDos = (todos, filter) => {
   return todos.filter(todo => {
@@ -37,10 +32,6 @@ const getVisibleToDos = (todos, filter) => {
         return !todo.completed;
     }
   });
-};
-
-VisibleToDos.contextTypes = {
-  store: React.PropTypes.object
 };
 
 export default VisibleToDos;

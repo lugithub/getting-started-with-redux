@@ -13,7 +13,7 @@ const store = createStore(todoApp);
 
 const rawDispatch = store.dispatch;
 store.dispatch = action => {
-  console.group('%cdispatching action1: ', 'color: green', action);
+  console.group('%cdispatching action: ', 'color: green', action);
   console.log('%cprevious state: ', 'color: green', store.getState());
   rawDispatch(action);
   console.log('%ccurrent state: ', 'color: green', store.getState());
