@@ -52,11 +52,7 @@ const render = () => {
       id => store.dispatch({type: 'TOGGLE_TODO', id})
     }
 
-    onFilter={
-      filter => store.dispatch({type: 'SET_VISIBILITY_FILTER', filter})
-    }
-
-    visibilityFilter={visibilityFilter}
+    store={store}
     />,
   document.getElementById('root'));
 };

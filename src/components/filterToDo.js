@@ -1,18 +1,15 @@
 import React from 'react';
 import FilterLink from './filterLink';
 
-const FilterToDo =  ({onFilter, visibilityFilter}) => {
+const FilterToDo = ({store}) => {
   return <div>Show:
-    <FilterLink filter='all' onFilter={onFilter}
-                visibilityFilter={visibilityFilter}>
+    <FilterLink filter='all' store={store}>
       All
     </FilterLink>{' '}
-    <FilterLink filter='completed' onFilter={onFilter}
-                visibilityFilter={visibilityFilter}>
+    <FilterLink filter='completed' store={store}>
       Completed
     </FilterLink>{' '}
-    <FilterLink filter='active' onFilter={onFilter}
-                visibilityFilter={visibilityFilter}>
+    <FilterLink filter='active' store={store}>
       Active
     </FilterLink>
   </div>;
