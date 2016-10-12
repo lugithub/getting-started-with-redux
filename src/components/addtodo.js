@@ -1,5 +1,6 @@
 import React, { Component, PropTypes } from 'react';
-import {connect}from 'react-redux';
+import {connect} from 'react-redux';
+import {addToDo} from '../actions';
 
 //since ES6 class is hoisted but not initialzed, the app will break
 //if line 8 is moved after line 38.
@@ -25,11 +26,7 @@ let id = 0;
 //the video is different.
 //but mine is better because it is weird for AddToDo to have a dispatch prop
 const mapDispathToProps = dispatch => ({
-  onClick: text => dispatch({
-    type: 'ADD_TODO',
-    id: id++,
-    text
-  })
+  onClick: text => dispatch(addToDo(text))
 });
 
 //container component

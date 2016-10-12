@@ -3,6 +3,7 @@ import React from 'react';
 import {Component} from 'react';
 import {connect} from 'react-redux';
 import ToDos from './todos';
+import {toggleToDo} from '../actions';
 
 //props are the props of the presentational component, ToDos.
 const mapStateToProps = state => {
@@ -13,7 +14,7 @@ const mapStateToProps = state => {
 
 //props are the props of the presentational component, ToDos.
 const mapDispathToProps = dispatch => ({
-  onToggle: id => dispatch({type: 'TOGGLE_TODO', id})
+  onToggle: id => dispatch(toggleToDo(id))
 });
 
 const VisibleToDos = connect(
