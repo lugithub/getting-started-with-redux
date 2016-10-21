@@ -26,7 +26,11 @@ let id = 0;
 //the video is different.
 //but mine is better because it is weird for AddToDo to have a dispatch prop
 const mapDispathToProps = dispatch => ({
-  onClick: text => dispatch(addToDo(text))
+
+  //arrow is cleaner if the function body is just an expression!
+  onClick(text) {
+    return dispatch(addToDo(text));
+  }
 });
 
 //container component
