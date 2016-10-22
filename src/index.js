@@ -9,7 +9,14 @@ import todoApp from './reducers';
 //component has uppercase naming convention
 import ToDoApp from './components/ToDoApp';
 
-const store = createStore(todoApp);
+const persistedState = {
+  todos:[{id: 0, text: 'www', completed: false},
+    {id: 1, text: 'com', completed: true}
+  ],
+  visibilityFilter: 'active'
+};
+
+const store = createStore(todoApp, persistedState);
 
 const rawDispatch = store.dispatch;
 store.dispatch = action => {

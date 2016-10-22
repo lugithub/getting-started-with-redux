@@ -1,6 +1,8 @@
 import todo from './todo';
 import _ from 'lodash';
 
+//prefer reducers to the persistedState to specify the default
+//because that makes it easy to test the changes
 export default (state = [], action) => {
   const {id} = action;
   const index = _.findIndex(state, {id});

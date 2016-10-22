@@ -1,4 +1,6 @@
 //should state default to {} ?
+//not required
+//
 export default function todo(state, action) {
   const {id, text} = action;
 
@@ -12,7 +14,7 @@ export default function todo(state, action) {
       } else {
         return state;
       }
-      
+
     default:
       //could return the initial state
       return state;
