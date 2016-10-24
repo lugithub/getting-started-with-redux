@@ -1,24 +1,9 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import {createStore} from 'redux';
-import {Provider} from 'react-redux';
-import {loadState, saveState} from './localStorage';
-import throttle from 'lodash/throttle';
+import configureStore from './configureStore';
+import Root from './root';
 
-//reducer has lowercase naming convertion
-import todoApp from './reducers';
-
-//component has uppercase naming convention
-import ToDoApp from './components/ToDoApp';
-
-const persistedState = loadState();
-
-const store = createStore(todoApp, persistedState);
-
-store.subscribe(throttle(() => {
-  saveState({
-    todos: store.getState().todos});
-}, 1000));
+const store = configureStore();
 
 const rawDispatch = store.dispatch;
 store.dispatch = action => {
@@ -31,7 +16,6 @@ store.dispatch = action => {
 
 //because child container components subscribe to the store themselfvs
 ReactDOM.render(
-  <Provider store={store}>
-    <ToDoApp/>
-  </Provider>,
-document.getElementById('root'));
+  <Root store={store}/>,
+  document.getElementById('root')
+);
