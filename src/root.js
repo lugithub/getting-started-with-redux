@@ -7,7 +7,7 @@ import ToDoApp from './components/ToDoApp';
 const Root = ({store}) =>
   <Provider store={store}>
     <Router history={browserHistory} >
-      <Route path='/' component={ToDoApp}/>
+      <Route path='/(:filter)' component={ToDoApp}/>
     </Router>
   </Provider>;
 
