@@ -2,13 +2,16 @@
 import React from 'react';
 import {Component} from 'react';
 import {connect} from 'react-redux';
+import {withRouter} from 'react-router';
 import ToDos from './todos';
 import {toggleToDo} from '../actions';
 
 //props are the props of the presentational component, ToDos.
-const mapStateToProps = (state, ownProps) => {
+
+//second argument is ownProps
+const mapStateToProps = (state, {params}) => {
   const {todos} = state;
-  const visibleToDos = getVisibleToDos(todos, ownProps.filter);
+  const visibleToDos = getVisibleToDos(todos, params.filter || 'all');
   return {todos: visibleToDos}
 };
 
@@ -17,10 +20,11 @@ const mapDispathToProps = dispatch => ({
   onToggle: id => dispatch(toggleToDo(id))
 });
 
-const VisibleToDos = connect(
+//withRouter is handy when i need to read router params in deep component tree
+const VisibleToDos = withRouter(connect(
   mapStateToProps,
   mapDispathToProps
-)(ToDos);
+)(ToDos));
 
 const getVisibleToDos = (todos, filter) => {
   return todos.filter(todo => {
