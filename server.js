@@ -19,8 +19,8 @@ app.set('port', (process.env.PORT || 3000));
 
 app.use('/', express.static(path.join(__dirname, 'public')));
 
-app.get('/', function(req, res) {
-  res.sendFile('hello.html', { root: path.join(__dirname, 'public')} );  
+app.get('/*', function(req, res) {
+  res.sendFile('hello.html', { root: path.join(__dirname, 'public')} );
 });
 
 app.listen(app.get('port'), function() {

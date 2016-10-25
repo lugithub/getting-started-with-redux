@@ -19,7 +19,7 @@ class ToDoApp extends Component {
   render() {
     return <div>
             <AddToDo/>
-            <VisibleToDos/>
+            <VisibleToDos filter={this.props.params.filter || 'all'}/>
             <FilterToDo/>
           </div>;
   }

@@ -6,9 +6,9 @@ import ToDos from './todos';
 import {toggleToDo} from '../actions';
 
 //props are the props of the presentational component, ToDos.
-const mapStateToProps = state => {
-  const {todos, visibilityFilter} = state;
-  const visibleToDos = getVisibleToDos(todos, visibilityFilter);
+const mapStateToProps = (state, ownProps) => {
+  const {todos} = state;
+  const visibleToDos = getVisibleToDos(todos, ownProps.filter);
   return {todos: visibleToDos}
 };
 
