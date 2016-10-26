@@ -3,7 +3,7 @@ import _ from 'lodash';
 
 //prefer reducers to the persistedState to specify the default
 //because that makes it easy to test the changes
-export default (state = [], action) => {
+const todos = (state = [], action) => {
   const {id} = action;
   const index = _.findIndex(state, {id});
 
@@ -22,4 +22,20 @@ export default (state = [], action) => {
       //could return the initial state
       return state;
   }
+};
+
+export default todos;
+
+//selector
+export const getVisibleToDos = (state, filter) => {
+  return state.filter(todo => {
+    switch (filter) {
+      case 'all':
+        return true;
+      case 'completed':
+        return todo.completed;
+      default:
+        return !todo.completed;
+    }
+  });
 };
