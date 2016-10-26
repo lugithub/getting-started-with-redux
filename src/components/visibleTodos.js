@@ -15,15 +15,12 @@ const mapStateToProps = (state, {params}) => {
   return {todos: visibleToDos}
 };
 
-//props are the props of the presentational component, ToDos.
-const mapDispathToProps = dispatch => ({
-  onToggle: id => dispatch(toggleToDo(id))
-});
-
 //withRouter is handy when i need to read router params in deep component tree
 const VisibleToDos = withRouter(connect(
   mapStateToProps,
-  mapDispathToProps
+
+  //onToggle is a prop of ToDos
+  {onToggle: toggleToDo}
 )(ToDos));
 
 const getVisibleToDos = (todos, filter) => {
