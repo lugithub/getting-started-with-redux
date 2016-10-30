@@ -1,5 +1,4 @@
 import {createStore} from 'redux';
-import {loadState, saveState} from './localStorage';
 import throttle from 'lodash/throttle';
 
 //reducer has lowercase naming convertion
@@ -25,9 +24,7 @@ const addLoggingToDispatch = store => {
 };
 
 const configureStore = () => {
-  const persistedState = loadState();
-
-  const store = createStore(todoApp, persistedState);
+  const store = createStore(todoApp);
 
   if (process.env.NODE_ENV !== 'production') {
     store.dispatch = addLoggingToDispatch(store);
