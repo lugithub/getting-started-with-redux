@@ -6,7 +6,6 @@ import {withRouter} from 'react-router';
 import ToDos from './todos';
 import * as actions from '../actions';
 import {getVisibleToDos} from '../reducers';
-import {fetchTodos} from '../api';
 
 class VisibleToDos extends Component {
   componentDidMount() {
@@ -20,9 +19,10 @@ class VisibleToDos extends Component {
   }
 
   fetchData() {
-    const {filter, receiveTodos} = this.props;
-    fetchTodos(this.props.filter).then(todos =>
-      this.props.receiveTodos(filter, todos));
+    //fetchTodos is not actions.fetchTodos.
+    //it's fetchTodos on mapDispatchToProps.
+    const {filter, fetchTodos} = this.props;
+    fetchTodos(this.props.filter);
   }
 
   render() {
@@ -50,8 +50,9 @@ const mapStateToProps = (state, {params}) => {
 VisibleToDos = withRouter(connect(
   mapStateToProps,
 
-  //onToggle is a prop of ToDos
-  //receiveTodos is a prop of VisibleToDos
+  //onToggle is a prop of ToDos.
+  //fetchTodos is a prop of VisibleToDos.
+  //actions.fetchTodos is an async action creator.
   actions,
 )(VisibleToDos));
 

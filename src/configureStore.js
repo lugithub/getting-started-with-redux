@@ -23,12 +23,29 @@ const addLoggingToDispatch = store => {
   };
 };
 
+const addPromiseSupportToDispatch = store => {
+  const rawDispatch = store.dispatch;
+
+  return action => {
+    if (typeof action.then === 'function') {
+      return action.then(a => rawDispatch(a));
+    } else {
+      return rawDispatch(action);
+    }
+  };
+};
+
 const configureStore = () => {
   const store = createStore(todoApp);
 
+  //it's like a stack
+  //log is added first and it's at the bottom.
   if (process.env.NODE_ENV !== 'production') {
     store.dispatch = addLoggingToDispatch(store);
   }
+
+  //promise is added second and it's at the top.
+  store.dispatch = addPromiseSupportToDispatch(store);
 
   store.subscribe(throttle(() => {
   }, 1000));
