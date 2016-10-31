@@ -4,24 +4,30 @@ import {Component} from 'react';
 import {connect} from 'react-redux';
 import {withRouter} from 'react-router';
 import ToDos from './todos';
-import {toggleToDo} from '../actions';
+import * as actions from '../actions';
 import {getVisibleToDos} from '../reducers';
 import {fetchTodos} from '../api';
 
 class VisibleToDos extends Component {
   componentDidMount() {
-    fetchTodos(this.props.filter).then(todos => console.log(this.props.filter,
-    todos));
+    this.fetchData();
   }
 
   componentDidUpdate(previousProps) {
     if (this.props.filter !== previousProps.filter) {
-      fetchTodos(this.props.filter).then(todos => console.log(this.props.filter,
-      todos));      
+      this.fetchData();
     }
   }
+
+  fetchData() {
+    const {filter, receiveTodos} = this.props;
+    fetchTodos(this.props.filter).then(todos =>
+      this.props.receiveTodos(filter, todos));
+  }
+
   render() {
-    return <ToDos {...this.props} />
+    const {toggleToDo, ...rest} = this.props;
+    return <ToDos onToggle={toggleToDo} {...rest} />
   }
 }
 
@@ -45,7 +51,8 @@ VisibleToDos = withRouter(connect(
   mapStateToProps,
 
   //onToggle is a prop of ToDos
-  {onToggle: toggleToDo}
+  //receiveTodos is a prop of VisibleToDos
+  actions,
 )(VisibleToDos));
 
 export default VisibleToDos;
