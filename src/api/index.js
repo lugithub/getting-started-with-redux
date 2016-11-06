@@ -1,4 +1,5 @@
 import {v4} from 'node-uuid';
+import _ from 'lodash';
 
 const db = {
   todos: {
@@ -30,10 +31,18 @@ export const fetchTodos = filter =>
 
     switch (filter) {
       case 'all':
-        return _.map(byId);
+        return byId;
       case 'completed':
-        return _.filter(byId, {completed: true});
+        return covertTodosToObject(_.filter(byId, {completed: true}));
       default:
-        return _.filter(byId, {completed: false});
+        return covertTodosToObject(_.filter(byId, {completed: false}));
     }
   });
+
+function covertTodosToObject(todos) {
+  let x = {};
+  return _.reduce(todos, (accumulator, todo) => {
+    accumulator[todo.id] = todo;
+    return accumulator;
+  }, x);
+}

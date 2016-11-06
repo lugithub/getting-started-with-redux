@@ -1,55 +1,64 @@
 import {combineReducers} from 'redux';
-import todo from './todo';
-import _ from 'lodash';
 
-//prefer reducers to the persistedState to specify the default
-//because that makes it easy to test the changes
 const byId = (state = {}, action) => {
-  const {id} = action;
-  const index = _.findIndex(state, {id});
-
   switch (action.type) {
-    case 'ADD_TODO':
-    case 'TOGGLE_TODO':
-      return {
-        ...state,
-        [action.id]: todo(state[action.id], action)
-      };
+    case 'RECEIVE_TODOS':
+      //shallow cope
+      const nextState = {...state};
+      _.forEach(action.response, (todo, id) => nextState[id] = todo);
 
+      //why not just action.response?
+      return nextState;
     default:
-      //could return the initial state
       return state;
   }
 };
 
-//this is implementation details of converting the lookup map to array
-//my approarch of lodash doesn't need it
 const allIds = (state = [], action) => {
+  if (action.filter !== 'all') {
+    return state;
+  }
   switch(action.type) {
-    case 'ADD_TODO':
-      return [...state, action.id];
+    case 'RECEIVE_TODOS':
+      return _.map(action.response, (todo, id) => id);
     default:
       return state;
   }
 };
+
+const activeIds = (state = [], action) => {
+  if (action.filter !== 'active') {
+    return state;
+  }
+  switch(action.type) {
+    case 'RECEIVE_TODOS':
+      return _.map(action.response, (todo, id) => id);
+    default:
+      return state;
+  }
+};
+
+const completedIds = (state = [], action) => {
+  if (action.filter !== 'completed') {
+    return state;
+  }
+  switch(action.type) {
+    case 'RECEIVE_TODOS':
+      return _.map(action.response, (todo, id) => id);
+    default:
+      return state;
+  }
+};
+
+const idsByFilter = combineReducers({
+  all: allIds,
+  active: activeIds,
+  completed: completedIds,
+});
 
 const todos = combineReducers({
   byId,
-  allIds
+  idsByFilter,
 });
 
 export default todos;
-
-//selector
-export const getVisibleToDos = (state, filter) => {
-  const {byId} = state;
-
-  switch (filter) {
-    case 'all':
-      return _.map(byId);
-    case 'completed':
-      return _.filter(byId, {completed: true});
-    default:
-      return _.filter(byId, {completed: false});
-  }
-};
