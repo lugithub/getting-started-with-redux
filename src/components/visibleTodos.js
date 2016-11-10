@@ -5,7 +5,7 @@ import {connect} from 'react-redux';
 import {withRouter} from 'react-router';
 import ToDos from './todos';
 import * as actions from '../actions';
-import {getVisibleToDos} from '../reducers';
+import {getVisibleToDos, getIsFetching} from '../reducers';
 
 class VisibleToDos extends Component {
   componentDidMount() {
@@ -21,13 +21,19 @@ class VisibleToDos extends Component {
   fetchData() {
     //fetchTodos is not actions.fetchTodos.
     //it's fetchTodos on mapDispatchToProps.
-    const {filter, fetchTodos} = this.props;
+    const {filter, requestTodos, fetchTodos} = this.props;
+    requestTodos(filter);
     fetchTodos(this.props.filter);
   }
 
   render() {
-    const {toggleToDo, ...rest} = this.props;
-    return <ToDos onToggle={toggleToDo} {...rest} />
+    const {toggleToDo, todos, isFetching} = this.props;
+
+    if (isFetching && !todos.length) {
+        return <p>Loading...</p>;
+    }
+
+    return <ToDos onToggle={toggleToDo} todos={todos} />
   }
 }
 
@@ -39,9 +45,11 @@ const mapStateToProps = (state, {params}) => {
   const filter = params.filter || 'all';
 
   //VisibleToDos is isolated if the state shape changes around todos
-  const visibleToDos = getVisibleToDos(state, params.filter || 'all');
+  const visibleToDos = getVisibleToDos(state, filter);
+  const isFetching = getIsFetching(state, filter);
   return {
     todos: visibleToDos,
+    isFetching,
     filter,
   };
 };

@@ -12,6 +12,11 @@ export const toggleToDo = id => ({
     id
   });
 
+export const requestTodos = filter => ({
+  type: 'REQUEST_TODOS',
+  filter,
+});
+
 const receiveTodos = (filter, response) => ({
   type: 'RECEIVE_TODOS',
   filter,
