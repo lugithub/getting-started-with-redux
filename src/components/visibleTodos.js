@@ -5,7 +5,8 @@ import {connect} from 'react-redux';
 import {withRouter} from 'react-router';
 import ToDos from './todos';
 import * as actions from '../actions';
-import {getVisibleToDos, getIsFetching} from '../reducers';
+import {getVisibleToDos, getErrorMessage, getIsFetching} from '../reducers';
+import FetchError from './fetchError';
 
 class VisibleToDos extends Component {
   componentDidMount() {
@@ -14,7 +15,7 @@ class VisibleToDos extends Component {
 
   componentDidUpdate(previousProps) {
     if (this.props.filter !== previousProps.filter) {
-      this.fetchData().then(() => console.log('done'));
+      this.fetchData();
     }
   }
 
@@ -25,16 +26,21 @@ class VisibleToDos extends Component {
 
     //thunk lets a component to specify the intention to start an async
     //operation without worrying which actions get dispatched and when.
-    fetchTodos(this.props.filter);
+    fetchTodos(this.props.filter).then(() => console.log('done'));
   }
 
   render() {
-    const {toggleToDo, todos, isFetching} = this.props;
+    const {toggleToDo, errorMessage, todos, isFetching} = this.props;
 
     if (isFetching && !todos.length) {
         return <p>Loading...</p>;
     }
 
+    if (errorMessage && !todos.length) {
+        return <FetchError message={errorMessage} onRetry={() =>
+          this.fetchData()
+        } />;
+    }
     return <ToDos onToggle={toggleToDo} todos={todos} />
   }
 }
@@ -49,7 +55,9 @@ const mapStateToProps = (state, {params}) => {
   //VisibleToDos is isolated if the state shape changes around todos
   const visibleToDos = getVisibleToDos(state, filter);
   const isFetching = getIsFetching(state, filter);
+  const errorMessage = getErrorMessage(state, filter);
   return {
+    errorMessage,
     todos: visibleToDos,
     isFetching,
     filter,

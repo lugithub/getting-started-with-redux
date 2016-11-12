@@ -13,18 +13,6 @@ export const toggleToDo = id => ({
     id
   });
 
-//no longer exported
-const requestTodos = filter => ({
-  type: 'REQUEST_TODOS',
-  filter,
-});
-
-const receiveTodos = (filter, response) => ({
-  type: 'RECEIVE_TODOS',
-  filter,
-  response,
-});
-
 //async action creator
 //an action prmoise which resolves to a single action in the end
 //but we want an abstraction that represents multiple actions dispatched
@@ -41,8 +29,25 @@ export const fetchTodos = filter => (dispatch, getState) => {
     return Promise.resolve();
   }
 
-  dispatch(requestTodos(filter));
+  dispatch({
+    type: 'FETCH_TODOS_REQUEST',
+    filter,
+  });
 
   return api.fetchTodos(filter).then(response =>
-    dispatch(receiveTodos(filter, response)));
+    dispatch({
+      type: 'FETCH_TODOS_SUCCESS',
+      filter,
+      response,
+    }),
+    //or catch
+    //downside of catch is that if a reducer handling FETCH_TODOS_SUCCESS
+    //throws an error, it will be caught here as well but we only want to catch
+    //API error here.
+    error =>
+    dispatch({
+      type: 'FETCH_TODOS_FAILURE',
+      filter,
+      message: error.message,
+    }));
 };

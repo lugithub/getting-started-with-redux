@@ -27,6 +27,10 @@ const delay = ms => new Promise((resolve, reject) =>setTimeout(resolve, ms)
 
 export const fetchTodos = filter =>
   delay(5000).then(() => {
+    if (Math.random() > 0.5) {
+      throw new Error('Boom!');
+    }
+
     const {todos: {byId}} = db;
 
     switch (filter) {

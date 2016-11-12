@@ -1,6 +1,6 @@
 const byId = (state = {}, action) => {
   switch (action.type) {
-    case 'RECEIVE_TODOS':
+    case 'FETCH_TODOS_SUCCESS':
       //shallow cope
       const nextState = {...state};
       _.forEach(action.response, (todo, id) => nextState[id] = todo);
