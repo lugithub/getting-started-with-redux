@@ -21,8 +21,10 @@ class VisibleToDos extends Component {
   fetchData() {
     //fetchTodos is not actions.fetchTodos.
     //it's fetchTodos on mapDispatchToProps.
-    const {filter, requestTodos, fetchTodos} = this.props;
-    requestTodos(filter);
+    const {filter, fetchTodos} = this.props;
+
+    //thunk lets a component to specify the intention to start an async
+    //operation without worrying which actions get dispatched and when.
     fetchTodos(this.props.filter);
   }
 

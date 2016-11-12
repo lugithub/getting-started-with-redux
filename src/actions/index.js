@@ -12,7 +12,8 @@ export const toggleToDo = id => ({
     id
   });
 
-export const requestTodos = filter => ({
+//no longer exported
+const requestTodos = filter => ({
   type: 'REQUEST_TODOS',
   filter,
 });
@@ -24,5 +25,14 @@ const receiveTodos = (filter, response) => ({
 });
 
 //async action creator
-export const fetchTodos = filter => api.fetchTodos(filter).then(response =>
-  receiveTodos(filter, response));
+//an action prmoise which resolves to a single action in the end
+//but we want an abstraction that represents multiple actions dispatched
+//over a period of time
+//such functions returned from functions are often called thunks.
+
+export const fetchTodos = filter => dispatch => {
+  dispatch(requestTodos(filter));
+
+  return api.fetchTodos(filter).then(response =>
+    dispatch(receiveTodos(filter, response)));
+};
