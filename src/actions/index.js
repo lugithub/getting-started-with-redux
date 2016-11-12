@@ -1,5 +1,6 @@
 import {v4} from 'node-uuid';
 import * as api from '../api';
+import {getIsFetching} from '../reducers';
 
 export const addToDo = text => ({
     type: 'ADD_TODO',
@@ -30,7 +31,16 @@ const receiveTodos = (filter, response) => ({
 //over a period of time
 //such functions returned from functions are often called thunks.
 
-export const fetchTodos = filter => dispatch => {
+//thunk is a composable way to express async action creators that want to
+//emit several actions during the course of an async operation
+
+export const fetchTodos = filter => (dispatch, getState) => {
+  //this could be a problem
+  //isFetching filter: completed but isFetching returns false for filter:active
+  if(getIsFetching(getState(), filter)) {
+    return Promise.resolve();
+  }
+
   dispatch(requestTodos(filter));
 
   return api.fetchTodos(filter).then(response =>

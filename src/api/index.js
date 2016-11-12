@@ -26,7 +26,7 @@ const delay = ms => new Promise((resolve, reject) =>setTimeout(resolve, ms)
 );
 
 export const fetchTodos = filter =>
-  delay(1000).then(() => {
+  delay(5000).then(() => {
     const {todos: {byId}} = db;
 
     switch (filter) {

@@ -14,7 +14,7 @@ class VisibleToDos extends Component {
 
   componentDidUpdate(previousProps) {
     if (this.props.filter !== previousProps.filter) {
-      this.fetchData();
+      this.fetchData().then(() => console.log('done'));
     }
   }
 
