@@ -1,17 +1,5 @@
-import {v4} from 'node-uuid';
 import * as api from '../api';
 import {getIsFetching} from '../reducers';
-
-export const addToDo = text => ({
-    type: 'ADD_TODO',
-    id: v4(),
-    text
-  });
-
-export const toggleToDo = id => ({
-    type: 'TOGGLE_TODO',
-    id
-  });
 
 //async action creator
 //an action prmoise which resolves to a single action in the end
@@ -25,7 +13,7 @@ export const toggleToDo = id => ({
 export const fetchTodos = filter => (dispatch, getState) => {
   //this could be a problem
   //isFetching filter: completed but isFetching returns false for filter:active
-  if(getIsFetching(getState(), filter)) {
+  if (getIsFetching(getState(), filter)) {
     return Promise.resolve();
   }
 
@@ -50,4 +38,20 @@ export const fetchTodos = filter => (dispatch, getState) => {
       filter,
       message: error.message,
     }));
+};
+
+//thunk
+export const addToDo = text => dispatch => {
+  return api.addTodo(text).then(response => dispatch({
+    type: 'ADD_TODO_SUCCESS',
+    response,
+  }));
+};
+
+//thunk
+export const toggleToDo = id => dispatch => {
+  return api.toggleTodo(id).then(todo => dispatch({
+    type: 'TOGGLE_TODO',
+    todo,
+  }));
 };

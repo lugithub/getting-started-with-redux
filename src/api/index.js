@@ -25,11 +25,30 @@ const db = {
 const delay = ms => new Promise((resolve, reject) =>setTimeout(resolve, ms)
 );
 
+export const addTodo = text =>
+  delay(500).then(() => {
+    const todo = {
+        id: v4(),
+        text,
+        completed: false,
+    };
+    db.todos.byId[todo.id] = todo;
+    db.todos.allIds.push(todo.id);
+    return todo;
+  });
+
+export const toggleTodo = id =>
+    delay(500).then(() => {
+      let todo = db.todos.byId[id];
+      todo.completed = !todo.completed;
+      return todo;
+    });
+
 export const fetchTodos = filter =>
-  delay(5000).then(() => {
-    if (Math.random() > 0.5) {
-      throw new Error('Boom!');
-    }
+  delay(500).then(() => {
+    // if (Math.random() > 0.5) {
+    //   throw new Error('Boom!');
+    // }
 
     const {todos: {byId}} = db;
 

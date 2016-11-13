@@ -1,14 +1,36 @@
 import {combineReducers} from 'redux';
+import _ from 'lodash';
 
 const createList = filter => {
   const ids = (state = [], action) => {
-    if (action.filter !== filter) {
-      return state;
-    }
+    // if (action.type === 'TOGGLE_TODO') {
+    //   let nextState = state.slice();
+    //
+    //   if (action.todo.completed) {
+    //     if (filter === 'active') {
+    //       _.pull(nextState, action.todo.id);
+    //     }
+    //     if (filter === 'completed') {
+    //       nextState.push(action.todo.id);
+    //     }
+    //   } else {
+    //     if (filter === 'active') {
+    //       nextState.push(action.todo.id);
+    //     }
+    //     if (filter === 'completed') {
+    //       _.pull(nextState, action.todo.id);
+    //     }
+    //   }
+    //   return nextState;
+    // }
 
     switch (action.type) {
       case 'FETCH_TODOS_SUCCESS':
-        return _.map(action.response, (todo, id) => id);
+        return filter === action.filter ?
+          _.map(action.response, (todo, id) => id) : state;
+      case 'ADD_TODO_SUCCESS':
+        return filter !== 'completed' ?
+          [...state, action.response.id] : state;
       default:
         //this is important
         //otherwise, switch back to a previous filter will
