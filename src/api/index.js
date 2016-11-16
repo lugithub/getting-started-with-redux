@@ -46,26 +46,14 @@ export const toggleTodo = id =>
 
 export const fetchTodos = filter =>
   delay(500).then(() => {
-    // if (Math.random() > 0.5) {
-    //   throw new Error('Boom!');
-    // }
-
     const {todos: {byId}} = db;
 
     switch (filter) {
       case 'all':
-        return byId;
+        return _.map(byId, value => value);
       case 'completed':
-        return covertTodosToObject(_.filter(byId, {completed: true}));
+        return _.filter(byId, {completed: true});
       default:
-        return covertTodosToObject(_.filter(byId, {completed: false}));
+        return _.filter(byId, {completed: false});
     }
   });
-
-function covertTodosToObject(todos) {
-  let x = {};
-  return _.reduce(todos, (accumulator, todo) => {
-    accumulator[todo.id] = todo;
-    return accumulator;
-  }, x);
-}

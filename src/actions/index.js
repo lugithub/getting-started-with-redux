@@ -1,3 +1,5 @@
+import {normalize} from 'normalizr';
+import * as schema from './schema';
 import * as api from '../api';
 import {getIsFetching} from '../reducers';
 
@@ -22,12 +24,13 @@ export const fetchTodos = filter => (dispatch, getState) => {
     filter,
   });
 
-  return api.fetchTodos(filter).then(response =>
-    dispatch({
-      type: 'FETCH_TODOS_SUCCESS',
-      filter,
-      response,
-    }),
+  return api.fetchTodos(filter).then(response => {
+      dispatch({
+        type: 'FETCH_TODOS_SUCCESS',
+        filter,
+        response: normalize(response, schema.arrayOfTodos),
+      })
+    },
     //or catch
     //downside of catch is that if a reducer handling FETCH_TODOS_SUCCESS
     //throws an error, it will be caught here as well but we only want to catch
@@ -42,16 +45,19 @@ export const fetchTodos = filter => (dispatch, getState) => {
 
 //thunk
 export const addToDo = text => dispatch => {
-  return api.addTodo(text).then(response => dispatch({
-    type: 'ADD_TODO_SUCCESS',
-    response,
-  }));
+  return api.addTodo(text).then(response => {
+      dispatch({
+        type: 'ADD_TODO_SUCCESS',
+        response: normalize(response, schema.todo),
+      });
+    }
+  );
 };
 
 //thunk
 export const toggleToDo = id => dispatch => {
-  return api.toggleTodo(id).then(todo => dispatch({
+  return api.toggleTodo(id).then(response => dispatch({
     type: 'TOGGLE_TODO',
-    todo,
+    response,
   }));
 };
