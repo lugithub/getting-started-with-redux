@@ -1,29 +1,28 @@
 import {combineReducers} from 'redux';
 import _ from 'lodash';
 
+const handleToggle = filter => (state, action) => {
+  const id = action.response.result;
+  const todo = action.response.entities.todos[id];
+  if (todo.completed) {
+    if (filter === 'completed') {
+      return [...state, id];
+    } else if (filter === 'active') {
+      return _.difference(state, [id]);
+    }
+    return state;
+  } else {
+      if (filter === 'completed') {
+        return _.difference(state, [id]);
+      } else if (filter === 'active') {
+        return [...state, id];
+      }
+      return state;
+  }
+};
+
 const createList = filter => {
   const ids = (state = [], action) => {
-    // if (action.type === 'TOGGLE_TODO') {
-    //   let nextState = state.slice();
-    //
-    //   if (action.todo.completed) {
-    //     if (filter === 'active') {
-    //       _.pull(nextState, action.todo.id);
-    //     }
-    //     if (filter === 'completed') {
-    //       nextState.push(action.todo.id);
-    //     }
-    //   } else {
-    //     if (filter === 'active') {
-    //       nextState.push(action.todo.id);
-    //     }
-    //     if (filter === 'completed') {
-    //       _.pull(nextState, action.todo.id);
-    //     }
-    //   }
-    //   return nextState;
-    // }
-
     switch (action.type) {
       case 'FETCH_TODOS_SUCCESS':
         return filter === action.filter ?
@@ -31,6 +30,8 @@ const createList = filter => {
       case 'ADD_TODO_SUCCESS':
         return filter !== 'completed' ?
           [...state, action.response.result] : state;
+      case 'TOGGLE_TODO_SUCCESS':
+          return handleToggle(filter)(state, action);
       default:
         //this is important
         //otherwise, switch back to a previous filter will

@@ -57,7 +57,7 @@ export const addToDo = text => dispatch => {
 //thunk
 export const toggleToDo = id => dispatch => {
   return api.toggleTodo(id).then(response => dispatch({
-    type: 'TOGGLE_TODO',
-    response,
+    type: 'TOGGLE_TODO_SUCCESS',
+    response: normalize(response, schema.todo),
   }));
 };
